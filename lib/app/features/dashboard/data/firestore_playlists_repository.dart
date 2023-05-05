@@ -1,0 +1,56 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:rockers_admin/app/features/dashboard/dashboard.dart';
+
+final firestorePlaylistsRepositoryProvider =
+    Provider<FirestorePlaylistsRepository>(
+  (ref) => FirestorePlaylistsRepository(),
+);
+
+class FirestorePlaylistsRepository implements IPlaylistsRepository {
+  final _collection = FirebaseFirestore.instance.collection('playlists');
+
+  @override
+  Future<String> add(Playlist playlist) async {
+    String id = '';
+
+    await _collection.add(playlist.toMap()).then((doc) => id = doc.id);
+
+    return id;
+  }
+
+  @override
+  Future<List<Playlist>> getAll() async {
+    final List<Playlist> playlists = [];
+
+    final Query query = _collection.orderBy('priority');
+    final QuerySnapshot querySnapshot = await query.get();
+
+    playlists.addAll(
+      querySnapshot.docs.map(
+        (doc) => Playlist.fromSnapshot(doc),
+      ),
+    );
+
+    return playlists;
+  }
+
+  @override
+  Future<void> remove(String id) async {
+    await _collection.doc(id).delete();
+  }
+
+  @override
+  Future<void> updateData(Playlist playlist) async {
+    await _collection.doc(playlist.id).update(playlist.toMap());
+  }
+
+  @override
+  Future<void> updatePriority(
+    String playlistId,
+    int newPriority,
+  ) async {
+    await _collection.doc(playlistId).update({'priority': newPriority});
+  }
+}
