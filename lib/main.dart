@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:rockers_admin/app/core/constants/environment.dart';
 
 import 'package:rockers_admin/app/core/routes/app_routes.dart';
 import 'package:rockers_admin/app/core/theme/app_theme.dart';
@@ -14,13 +15,13 @@ void main() async {
 
   await Firebase.initializeApp(
     options: FirebaseOptions(
-      apiKey: dotenv.get('FIREBASE_APIKEY'),
+      apiKey: Environment.firebaseApiKey,
       authDomain: 'rockers-db.firebaseapp.com',
       databaseURL: "https://rockers-db.firebaseio.com",
       projectId: 'rockers-db',
       storageBucket: 'rockers-db.appspot.com',
       messagingSenderId: '497715268668',
-      appId: dotenv.get('FIREBASE_APPID'),
+      appId: Environment.firebaseAppId,
       measurementId: 'G-9TK284K1F0',
     ),
   );
