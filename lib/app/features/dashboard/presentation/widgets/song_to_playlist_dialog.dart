@@ -90,17 +90,23 @@ class _SongToPlaylistDialogState extends ConsumerState<SongToPlaylistDialog> {
                               await playlistsNotifier.addSongToPlaylist(
                                 playlistId,
                                 SongReference(
+                                  band: songs[index].band,
                                   position: currentSongs?.isNotEmpty == true
                                       ? currentSongs!.last.position + 1
                                       : 1,
                                   songId: songs[index].id!,
+                                  title: songs[index].title,
+                                  videoUrl: songs[index].videoUrl,
                                 ),
                               );
                             } else {
                               await trendingSongsNotifier.add(
                                 TrendingSong(
+                                  band: songs[index].band,
                                   priority: 1,
                                   songId: songs[index].id!,
+                                  title: songs[index].title,
+                                  videoUrl: songs[index].videoUrl,
                                 ),
                               );
                             }

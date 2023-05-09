@@ -18,66 +18,71 @@ class SongsBoard extends ConsumerWidget {
       children: [
         const _SearchBar(),
         asyncSongs.when(
-          data: (songs) => SingleChildScrollView(
-            child: PaginatedDataTable(
-              actions: [
-                TextButton.icon(
-                  icon: const Icon(Icons.add_circle_outline),
-                  label: const Text('Add'),
-                  onPressed: () => showDialog(
+          data: (songs) => LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return SizedBox(
+                width: constraints.maxWidth,
+                child: PaginatedDataTable(
+                  actions: [
+                    TextButton.icon(
+                      icon: const Icon(Icons.add_circle_outline),
+                      label: const Text('Add'),
+                      onPressed: () => showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        barrierColor: AppColors.eerieBlack.withOpacity(0.5),
+                        builder: (context) {
+                          return SongAlertDialog();
+                        },
+                      ),
+                    ),
+                  ],
+                  columns: const [
+                    DataColumn(
+                      label: Text(
+                        'Band',
+                        style: heading3Style,
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Track',
+                        style: heading3Style,
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Video URL',
+                        style: heading3Style,
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Creation Date',
+                        style: heading3Style,
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Actions',
+                        style: heading3Style,
+                      ),
+                    ),
+                  ],
+                  header: const Text(
+                    'Songs',
+                    style: heading2Style,
+                  ),
+                  headingRowHeight: 70.0,
+                  source: SongsDataTableSource(
                     context: context,
-                    barrierDismissible: false,
-                    barrierColor: AppColors.eerieBlack.withOpacity(0.5),
-                    builder: (context) {
-                      return SongAlertDialog();
-                    },
+                    ref: ref,
+                    songsData: songs,
                   ),
                 ),
-              ],
-              columns: const [
-                DataColumn(
-                  label: Text(
-                    'Band',
-                    style: heading3Style,
-                  ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Track',
-                    style: heading3Style,
-                  ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Video URL',
-                    style: heading3Style,
-                  ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Creation Date',
-                    style: heading3Style,
-                  ),
-                ),
-                DataColumn(
-                  label: Text(
-                    'Actions',
-                    style: heading3Style,
-                  ),
-                ),
-              ],
-              header: const Text(
-                'Songs',
-                style: heading2Style,
-              ),
-              headingRowHeight: 70.0,
-              source: SongsDataTableSource(
-                context: context,
-                ref: ref,
-                songsData: songs,
-              ),
-            ),
-          ),
+              );
+            },
+          ), 
           error: (err, stack) => Text('Error: $err'),
           loading: () => const Center(
             child: CircularProgressIndicator(),

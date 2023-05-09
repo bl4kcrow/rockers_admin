@@ -71,16 +71,41 @@ class _TrendingBoardState extends ConsumerState<TrendingBoard> {
                       ),
                       trailing: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: IconButton(
-                          onPressed: () async {
-                            await trendingSongNotifier.remove(
-                              trendingSongs[index].id!,
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.delete_outlined,
-                            color: AppColors.frenchWine,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            DropdownButton<TrendType>(
+                              value: trendingSongs[index].trendType,
+                              focusColor: Colors.transparent,
+                              items: TrendType.values
+                                  .map(
+                                    (trendType) => DropdownMenuItem(
+                                      value: trendType,
+                                      child: Text(trendType.description),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (newValue) {
+                                if (newValue != null) {
+                                  trendingSongNotifier.updateTrendType(
+                                    trendingSong: trendingSongs[index],
+                                    trendType: newValue,
+                                  );
+                                }
+                              },
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                await trendingSongNotifier.remove(
+                                  trendingSongs[index].id!,
+                                );
+                              },
+                              icon: const Icon(
+                                Icons.delete_outlined,
+                                color: AppColors.frenchWine,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     );

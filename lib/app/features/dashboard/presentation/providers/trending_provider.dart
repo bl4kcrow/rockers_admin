@@ -51,4 +51,23 @@ class TrendingNotifier extends AsyncNotifier<List<TrendingSong>> {
       return listWithNewPriority;
     });
   }
+
+  Future updateTrendType({
+    required TrendingSong trendingSong,
+    required TrendType trendType,
+  }) async {
+    await update((currentList) {
+      final int indexToChange = currentList.indexWhere(
+        ((trendingItem) => trendingItem.id == trendingSong.id),
+      );
+
+      currentList.removeAt(indexToChange);
+      currentList.insert(
+        indexToChange,
+        trendingSong.copyWith(trendType: trendType),
+      );
+
+      return currentList;
+    });
+  }
 }
