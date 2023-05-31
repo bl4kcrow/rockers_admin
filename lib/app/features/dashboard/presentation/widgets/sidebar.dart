@@ -34,9 +34,9 @@ class _SidebarState extends State<Sidebar> {
           const SizedBox(
             width: 10.0,
           ),
-          Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
                 'Rockers',
                 style: heading2Style,
