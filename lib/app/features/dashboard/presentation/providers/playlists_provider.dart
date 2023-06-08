@@ -60,6 +60,16 @@ class PlaylistsNotifier extends AsyncNotifier<List<Playlist>> {
     );
 
     await playlistRepository.updateData(playlistSorted);
+
+    await update((currentList) {
+      final playlistIndex = currentList.indexWhere(
+        (playlist) => playlist.id == playlistSorted.id,
+      );
+
+      currentList[playlistIndex] = playlistSorted;
+
+      return currentList;
+    });
   }
 
   Future updatePlaylistsPriority() async {
