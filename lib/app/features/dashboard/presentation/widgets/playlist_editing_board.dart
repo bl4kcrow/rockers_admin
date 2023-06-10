@@ -34,7 +34,6 @@ class _PlaylistEditingBoardState extends ConsumerState<PlaylistEditingBoard> {
           (playlist) => playlist.id == widget.playlistId,
         );
     final playlistsNotifier = ref.read(playlistsProvider.notifier);
-    final songsData = ref.watch(songsProvider).value;
 
     if (isInitialLoad == true) {
       activePlaylist = playlistData?.isActive ?? false;
@@ -137,11 +136,7 @@ class _PlaylistEditingBoardState extends ConsumerState<PlaylistEditingBoard> {
                   child: ReorderableListView.builder(
                     padding: const EdgeInsets.all(16.0),
                     itemBuilder: (context, index) {
-                      final songData = songsData?.firstWhere(
-                        (song) =>
-                            song.id ==
-                            playlistData.songReferences[index].songId,
-                      );
+                      final songData = playlistData.songReferences[index];
 
                       return ListTile(
                         key: Key('$index'),
@@ -149,9 +144,9 @@ class _PlaylistEditingBoardState extends ConsumerState<PlaylistEditingBoard> {
                           NumberFormat('00').format(index + 1),
                           style: heading2Style,
                         ),
-                        title: Text(songData?.title ?? 'N/A'),
+                        title: Text(songData.title),
                         subtitle: Text(
-                          songData?.band ?? 'N/A',
+                          songData.band,
                           style: captionStyle,
                         ),
                         trailing: Padding(
