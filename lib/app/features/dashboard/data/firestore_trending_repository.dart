@@ -47,15 +47,31 @@ class FirestoreTrendingRepository implements ITrendingRepository {
   }
 
   @override
-  Future<void> save(List<TrendingSong> trendingSongList) async {
+  Future<List<TrendingSong>> save(
+    List<TrendingSong> trendingSongList,
+    List<String> idSongsToDelete,
+  ) async {
+    final List<TrendingSong> trendingSongsSaved = [];
+
+    for (var idSong in idSongsToDelete) {
+      await remove(idSong);
+    }
+
     for (var trendingSong in trendingSongList) {
       if (trendingSong.id != null) {
         await _collection
             .doc(trendingSong.id)
             .update(trendingSong.mapToUpdate());
+        trendingSongsSaved.add(trendingSong);
       } else {
-        await _collection.add(trendingSong.toMap());
+        final idAssigned = await add(trendingSong);
+
+        trendingSongsSaved.add(
+          trendingSong.copyWith(id: idAssigned),
+        );
       }
     }
+
+    return trendingSongsSaved;
   }
 }

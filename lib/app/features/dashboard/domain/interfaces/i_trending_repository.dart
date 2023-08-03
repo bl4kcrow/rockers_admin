@@ -11,5 +11,8 @@ abstract class ITrendingRepository {
   Future<void> update(TrendingSong trendingSong);
   Future<void> remove(String id);
   Future<List<TrendingSong>> get();
-  Future<void> save(List<TrendingSong> trendingSongList);
+  Future<List<TrendingSong>> save(
+    List<TrendingSong> trendingSongList,
+    List<String> idSongsToDelete,
+  );
 }

@@ -7,16 +7,11 @@ import 'package:rockers_admin/app/core/theme/theme.dart';
 import 'package:rockers_admin/app/core/widgets/snack_bar.dart';
 import 'package:rockers_admin/app/features/dashboard/dashboard.dart';
 
-class TrendingBoard extends ConsumerStatefulWidget {
+class TrendingBoard extends ConsumerWidget {
   const TrendingBoard({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _TrendingBoardState();
-}
-
-class _TrendingBoardState extends ConsumerState<TrendingBoard> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final trendingSongList = ref.watch(trendingProvider);
     final trendingSongNotifier = ref.read(trendingProvider.notifier);
     final songsData = ref.read(songsProvider).asData?.value;
@@ -96,8 +91,8 @@ class _TrendingBoardState extends ConsumerState<TrendingBoard> {
                             ),
                             IconButton(
                               onPressed: () async {
-                                await trendingSongNotifier.remove(
-                                  trendingSongs[index].id!,
+                                await trendingSongNotifier.removeByIndex(
+                                  index,
                                 );
                               },
                               icon: const Icon(
@@ -112,17 +107,19 @@ class _TrendingBoardState extends ConsumerState<TrendingBoard> {
                   },
                   itemCount: trendingSongs.length,
                   onReorder: (oldIndex, newIndex) {
-                    setState(() {
-                      if (oldIndex < newIndex) {
-                        newIndex -= 1;
-                      }
-                      final TrendingSong item =
-                          trendingSongs.removeAt(oldIndex);
-                      trendingSongs.insert(
-                        newIndex,
-                        item,
-                      );
-                    });
+                    // setState(() {
+                    if (oldIndex < newIndex) {
+                      newIndex -= 1;
+                    }
+                    final TrendingSong item = trendingSongs[oldIndex];
+                    trendingSongNotifier.removeByIndex(
+                      oldIndex,
+                    );
+                    trendingSongNotifier.add(
+                      newIndex,
+                      item,
+                    );
+                    // });
                   },
                 ),
               ),

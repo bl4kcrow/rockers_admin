@@ -101,6 +101,7 @@ class _SongToPlaylistDialogState extends ConsumerState<SongToPlaylistDialog> {
                               );
                             } else {
                               await trendingSongsNotifier.add(
+                                0,
                                 TrendingSong(
                                   band: songs[index].band,
                                   priority: 1,

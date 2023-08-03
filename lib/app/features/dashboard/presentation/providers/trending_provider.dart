@@ -15,28 +15,44 @@ class TrendingNotifier extends AsyncNotifier<List<TrendingSong>> {
     return await trendingRepository.get();
   }
 
-  Future add(TrendingSong trendingSong) async {
+  final List<String> idsToDelete = [];
+
+  Future add(
+    int index,
+    TrendingSong trendingSong,
+  ) async {
     await update((currentList) {
-      currentList.insert(0, trendingSong);
+      currentList.insert(
+        index,
+        trendingSong,
+      );
       return currentList;
     });
   }
 
   Future remove(String id) async {
-    final trendingRepository = ref.read(trendingRepositoryProvider);
-    trendingRepository.remove(id);
-
     await update((currentList) {
       currentList.removeWhere((trendingSong) => trendingSong.id == id);
+      idsToDelete.add(id);
+      return currentList;
+    });
+  }
+
+  Future removeByIndex(int index) async {
+    await update((currentList) {
+      final songToDelete = currentList.removeAt(index);
+      if (songToDelete.id != null) {
+        idsToDelete.add(songToDelete.id!);
+      }
       return currentList;
     });
   }
 
   Future save() async {
     final trendingRepository = ref.read(trendingRepositoryProvider);
+    final List<TrendingSong> listWithNewPriority = [];
 
     await update((currentList) async {
-      final List<TrendingSong> listWithNewPriority = [];
       var index = 1;
 
       for (var trendingSong in currentList) {
@@ -47,8 +63,14 @@ class TrendingNotifier extends AsyncNotifier<List<TrendingSong>> {
         );
       }
 
-      await trendingRepository.save(listWithNewPriority);
-      return listWithNewPriority;
+      final trendingSongsSaved = await trendingRepository.save(
+        listWithNewPriority,
+        idsToDelete,
+      );
+
+      idsToDelete.clear();
+
+      return trendingSongsSaved;
     });
   }
 
