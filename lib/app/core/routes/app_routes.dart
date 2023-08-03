@@ -32,7 +32,7 @@ GoRouter get appRoutes {
                 path: Routes.playlistEditingBoard,
                 name: 'playlistEditing',
                 builder: (context, state) => PlaylistEditingBoard(
-                  playlistId: state.params['playlistId'],
+                  playlistId: state.pathParameters['playlistId'],
                 ),
               ),
             ],

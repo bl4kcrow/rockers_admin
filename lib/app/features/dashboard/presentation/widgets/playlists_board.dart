@@ -77,7 +77,7 @@ class _PlaylistBoardState extends ConsumerState<PlaylistsBoard> {
                       onTap: () {
                         context.goNamed(
                           'playlistEditing',
-                          params: {'playlistId': playlists[index].id!},
+                          pathParameters: {'playlistId': playlists[index].id!},
                         );
                       },
                     );

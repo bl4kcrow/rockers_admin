@@ -54,7 +54,7 @@ class CreatePlaylistDialog extends ConsumerWidget {
                   context.pop();
                   context.goNamed(
                     'playlistEditing',
-                    params: {'playlistId': playlistId},
+                    pathParameters: {'playlistId': playlistId},
                   );
                 },
               );
