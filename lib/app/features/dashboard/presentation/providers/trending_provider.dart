@@ -78,10 +78,18 @@ class TrendingNotifier extends AsyncNotifier<List<TrendingSong>> {
     required TrendingSong trendingSong,
     required TrendType trendType,
   }) async {
+    int indexToChange = 0;
+
     await update((currentList) {
-      final int indexToChange = currentList.indexWhere(
-        ((trendingItem) => trendingItem.id == trendingSong.id),
-      );
+      if (trendingSong.id != null) {
+        indexToChange = currentList.indexWhere(
+          ((trendingItem) => trendingItem.id == trendingSong.id),
+        );
+      } else {
+        indexToChange = currentList.indexWhere(
+          ((trendingItem) => trendingItem.songId == trendingSong.songId),
+        );
+      }
 
       currentList.removeAt(indexToChange);
       currentList.insert(
