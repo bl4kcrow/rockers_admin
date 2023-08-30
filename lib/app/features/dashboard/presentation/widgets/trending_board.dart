@@ -14,7 +14,6 @@ class TrendingBoard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final trendingSongList = ref.watch(trendingProvider);
     final trendingSongNotifier = ref.read(trendingProvider.notifier);
-    final songsData = ref.read(songsProvider).asData?.value;
 
     return trendingSongList.when(
       data: (trendingSongs) {
@@ -49,9 +48,7 @@ class TrendingBoard extends ConsumerWidget {
                 child: ReorderableListView.builder(
                   padding: const EdgeInsets.all(16.0),
                   itemBuilder: (context, index) {
-                    final songData = songsData?.firstWhere(
-                      (song) => song.id == trendingSongs[index].songId,
-                    );
+                    final songData = trendingSongs[index];
 
                     return ListTile(
                       key: Key('$index'),
@@ -59,9 +56,9 @@ class TrendingBoard extends ConsumerWidget {
                         NumberFormat('00').format(index + 1),
                         style: heading2Style,
                       ),
-                      title: Text(songData?.title ?? 'N/A'),
+                      title: Text(songData.title),
                       subtitle: Text(
-                        songData?.band ?? 'N/A',
+                        songData.band,
                         style: captionStyle,
                       ),
                       trailing: Padding(
