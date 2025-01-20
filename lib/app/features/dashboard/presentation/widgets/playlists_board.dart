@@ -39,7 +39,7 @@ class _PlaylistBoardState extends ConsumerState<PlaylistsBoard> {
                     onPressed: () => showDialog(
                       context: context,
                       barrierDismissible: false,
-                      barrierColor: AppColors.eerieBlack.withOpacity(0.5),
+                      barrierColor: AppColors.eerieBlack.withValues(alpha: 0.5),
                       builder: (context) {
                         return CreatePlaylistDialog();
                       },

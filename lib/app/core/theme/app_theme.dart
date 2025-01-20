@@ -15,7 +15,6 @@ class AppTheme {
         onSecondary: AppColors.white,
         tertiary: AppColors.frenchWine,
         onTertiary: AppColors.white,
-        background: AppColors.smokyBlack,
         surface: AppColors.eerieBlack,
         surfaceTint: AppColors.smokyBlack,
       ),

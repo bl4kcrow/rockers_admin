@@ -41,7 +41,7 @@ void main() async {
     ),
   );
 
-  setUrlStrategy(PathUrlStrategy());
+  setUrlStrategy(const PathUrlStrategy());
 }
 
 class MainApp extends StatelessWidget {
