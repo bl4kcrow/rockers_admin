@@ -8,12 +8,12 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:rockers_admin/app/core/constants/environment.dart';
 import 'package:rockers_admin/app/core/routes/app_routes.dart';
 import 'package:rockers_admin/app/core/theme/app_theme.dart';
-import 'package:rockers_admin/app/firebase_options_prod.dart';
+import 'package:rockers_admin/app/firebase_options_dev.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  final Environment environment = Environment.prod();
+  final Environment environment = Environment.dev();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -44,7 +44,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.dark(),
-      title: 'Rockers Admin',
+      title: 'Rockers Admin Dev',
       routerConfig: appRoutes,
     );
   }
