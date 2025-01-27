@@ -25,10 +25,10 @@ class _MenuItemState extends State<MenuItem> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      color: widget.isActive ? AppColors.eerieBlack : Colors.transparent,
+      color: widget.isActive ? AppColors.raisinBlack : Colors.transparent,
       child: InkWell(
         onTap: widget.isActive ? null : widget.onPressed,
-        hoverColor: AppColors.eerieBlack,
+        hoverColor: AppColors.raisinBlack,
         child: Container(
           decoration: BoxDecoration(
             border: Border(
@@ -54,9 +54,7 @@ class _MenuItemState extends State<MenuItem> {
               const SizedBox(width: 5.0),
               Text(
                 widget.text,
-                style: bodyStyle.copyWith(
-                  color: widget.isActive ? AppColors.frenchWine : null,
-                ),
+                style: bodyStyle,
               ),
             ],
           ),

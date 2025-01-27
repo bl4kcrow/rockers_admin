@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,10 +10,16 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:rockers_admin/app/core/constants/environment.dart';
 import 'package:rockers_admin/app/core/routes/app_routes.dart';
 import 'package:rockers_admin/app/core/theme/app_theme.dart';
+import 'package:rockers_admin/app/core/utils/utils.dart';
 import 'package:rockers_admin/app/firebase_options_prod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  if (Platform.isWindows) {
+    await windowInitialization();
+  }
+  
   await dotenv.load(fileName: ".env");
   final Environment environment = Environment.prod();
 

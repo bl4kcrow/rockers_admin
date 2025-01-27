@@ -20,7 +20,7 @@ class TrendingBoard extends ConsumerWidget {
         return Column(
           children: [
             SizedBox(
-              height: 100.0,
+              height: 50.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -46,7 +46,7 @@ class TrendingBoard extends ConsumerWidget {
             Expanded(
               child: Card(
                 child: ReorderableListView.builder(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(8.0),
                   itemBuilder: (context, index) {
                     final songData = trendingSongs[index];
 

@@ -16,10 +16,11 @@ class AppTheme {
         tertiary: AppColors.frenchWine,
         onTertiary: AppColors.white,
         surface: AppColors.eerieBlack,
+        surfaceContainerLow: AppColors.raisinBlack,
         surfaceTint: AppColors.smokyBlack,
       ),
       dividerTheme: const DividerThemeData(
-        color: AppColors.eerieBlack,
+        color: AppColors.raisinBlack,
       ),
       fontFamily: 'Roboto',
     );

@@ -27,9 +27,8 @@ class DashboardPage extends StatelessWidget {
                 children: [
                   const Text(
                     'Dashboard',
-                    style: heading2Style,
+                    style: heading1Style,
                   ),
-                  const SizedBox(height: 30.0),
                   Expanded(
                     child: child,
                   ),

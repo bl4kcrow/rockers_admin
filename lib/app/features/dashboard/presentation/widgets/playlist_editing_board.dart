@@ -1,3 +1,5 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -53,13 +55,21 @@ class _PlaylistEditingBoardState extends ConsumerState<PlaylistEditingBoard> {
     return Column(
       children: [
         SizedBox(
-          height: 100.0,
+          height: 50.0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Row(
                   children: [
+                    IconButton(
+                      icon: const Icon(FluentIcons.arrow_left_20_regular),
+                      onPressed: () {
+                        if (context.canPop()) {
+                          context.pop();
+                        }
+                      },
+                    ),
                     Expanded(
                       child: TextField(
                         controller: nameTextController,
@@ -134,7 +144,7 @@ class _PlaylistEditingBoardState extends ConsumerState<PlaylistEditingBoard> {
           child: (playlistData?.songReferences.isNotEmpty == true)
               ? Card(
                   child: ReorderableListView.builder(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(8.0),
                     itemBuilder: (context, index) {
                       final songData = playlistData.songReferences[index];
 

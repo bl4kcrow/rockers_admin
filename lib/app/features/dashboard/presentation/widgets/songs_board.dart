@@ -174,7 +174,8 @@ class _SearchBarState extends ConsumerState<_SearchBar> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100.0,
+      height: 80.0,
+      width: MediaQuery.of(context).size.width * 0.5,
       child: TextField(
         controller: searchController,
         decoration: InputDecoration(

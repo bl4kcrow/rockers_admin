@@ -25,9 +25,9 @@ class _PlaylistBoardState extends ConsumerState<PlaylistsBoard> {
         return Column(
           children: [
             SizedBox(
-              height: 100.0,
+              height: 50.0,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   const Text(
                     'Playlists',
@@ -51,7 +51,7 @@ class _PlaylistBoardState extends ConsumerState<PlaylistsBoard> {
             Expanded(
               child: Card(
                 child: ReorderableListView.builder(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(8.0),
                   itemBuilder: (context, index) {
                     return ListTile(
                       key: Key('$index'),
@@ -61,7 +61,7 @@ class _PlaylistBoardState extends ConsumerState<PlaylistsBoard> {
                       ),
                       title: Text(playlists[index].name),
                       trailing: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: IconButton(
                           onPressed: () async {
                             await playlistsNotifier.removePlaylist(
