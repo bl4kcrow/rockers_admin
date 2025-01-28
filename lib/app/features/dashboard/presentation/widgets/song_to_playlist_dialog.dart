@@ -23,7 +23,7 @@ class _SongToPlaylistDialogState extends ConsumerState<SongToPlaylistDialog> {
 
   @override
   void dispose() {
-    ref.invalidate(songsProvider);
+    searchController.dispose();
     super.dispose();
   }
 
@@ -132,6 +132,7 @@ class _SongToPlaylistDialogState extends ConsumerState<SongToPlaylistDialog> {
       actions: <Widget>[
         TextButton(
           onPressed: () {
+            ref.invalidate(songsProvider);
             Navigator.of(context).pop();
           },
           child: const Text('Done'),

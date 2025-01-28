@@ -42,7 +42,11 @@ class FirestoreSongsRepository implements ISongsRepository {
     final Query query = _collection
         .where(
           'band',
-          isEqualTo: band,
+          isGreaterThanOrEqualTo: band,
+        )
+        .where(
+          'band',
+          isLessThan: '${band}z',
         )
         .orderBy('title');
 
