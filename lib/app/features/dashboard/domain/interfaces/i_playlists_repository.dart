@@ -14,5 +14,8 @@ abstract class IPlaylistsRepository {
     String playlistId,
     int newPriority,
   );
+  Future<void> updateSong(
+    Song song,
+  );
   Future<List<Playlist>> getAll();
 }

@@ -74,6 +74,30 @@ class TrendingNotifier extends AsyncNotifier<List<TrendingSong>> {
     });
   }
 
+  Future updateSong(Song songToUpdate) async {
+    final trendingRepository = ref.read(trendingRepositoryProvider);
+
+    await update((currentList) async {
+      int indexToChange = -1;
+
+      indexToChange = currentList.indexWhere(
+        ((trendingItem) => trendingItem.songId == songToUpdate.id),
+      );
+
+      if (indexToChange != -1) {
+        await trendingRepository.updateSong(songToUpdate);
+
+        currentList[indexToChange] = currentList[indexToChange].copyWith(
+          band: songToUpdate.band,
+          title: songToUpdate.title,
+          videoUrl: songToUpdate.videoUrl,
+        );
+      }
+
+      return currentList;
+    });
+  }
+
   Future updateTrendType({
     required TrendingSong trendingSong,
     required TrendType trendType,

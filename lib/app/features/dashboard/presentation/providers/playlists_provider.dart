@@ -120,4 +120,39 @@ class PlaylistsNotifier extends AsyncNotifier<List<Playlist>> {
       return currentList;
     });
   }
+
+  Future updateSongReference(Song song) async {
+    final playlistRepository = ref.read(playlistRepositoryProvider);
+
+    await playlistRepository.updateSong(song);
+
+    await update((currentList) {
+      final List<int> listToUpdate = currentList
+          .asMap()
+          .entries
+          .where(
+            (entries) => entries.value.songReferences
+                .any((songs) => songs.songId == song.id),
+          )
+          .map((entry) => entry.key)
+          .toList();
+
+      for (var playlistIndex in listToUpdate) {
+        int songReferenceIndex = currentList[playlistIndex]
+            .songReferences
+            .indexWhere((element) => element.songId == song.id);
+
+        currentList[playlistIndex].songReferences[songReferenceIndex] =
+            currentList[playlistIndex]
+                .songReferences[songReferenceIndex]
+                .copyWith(
+                  band: song.band,
+                  title: song.title,
+                  videoUrl: song.videoUrl,
+                );
+      }
+
+      return currentList;
+    });
+  }
 }

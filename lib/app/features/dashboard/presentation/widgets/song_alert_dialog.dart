@@ -19,6 +19,8 @@ class SongAlertDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final songsNotifier = ref.read(songsProvider.notifier);
+    final playlistNotifier = ref.read(playlistsProvider.notifier);
+    final trendingNotifier = ref.read(trendingProvider.notifier);
 
     if (song != null) {
       bandNameController.text = song!.band;
@@ -77,6 +79,20 @@ class SongAlertDialog extends ConsumerWidget {
                 );
               } else {
                 songsNotifier.updateData(
+                  song!.copyWith(
+                    band: bandNameController.text,
+                    title: titleController.text,
+                    videoUrl: videoUrlController.text,
+                  ),
+                );
+                playlistNotifier.updateSongReference(
+                  song!.copyWith(
+                    band: bandNameController.text,
+                    title: titleController.text,
+                    videoUrl: videoUrlController.text,
+                  ),
+                );
+                trendingNotifier.updateSong(
                   song!.copyWith(
                     band: bandNameController.text,
                     title: titleController.text,

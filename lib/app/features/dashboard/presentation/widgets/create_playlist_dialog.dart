@@ -44,6 +44,7 @@ class CreatePlaylistDialog extends ConsumerWidget {
                       (ref.watch(playlistsProvider).asData?.value.length ?? 0) +
                           1,
                   rankingEnabled: false,
+                  songsId: <String>[],
                   songReferences: <SongReference>[],
                   creationDate: DateTime.now().toUtc(),
                   lastUpdate: DateTime.now().toUtc(),

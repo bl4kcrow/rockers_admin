@@ -15,4 +15,7 @@ abstract class ITrendingRepository {
     List<TrendingSong> trendingSongList,
     List<String> idSongsToDelete,
   );
+  Future<void> updateSong(
+    Song song,
+  );
 }

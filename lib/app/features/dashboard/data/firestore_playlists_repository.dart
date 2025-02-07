@@ -53,4 +53,28 @@ class FirestorePlaylistsRepository implements IPlaylistsRepository {
   ) async {
     await _collection.doc(playlistId).update({'priority': newPriority});
   }
+
+  @override
+  Future<void> updateSong(Song songToUpdate) async {
+    final QuerySnapshot<Map<String, dynamic>> query = await _collection
+        .where(
+          'songsId',
+          arrayContains: songToUpdate.id,
+        )
+        .get();
+
+    for (var doc in query.docs) {
+      final List<dynamic> songs = doc.data()['songs'];
+
+      for (var song in songs) {
+        if (song['songId'] == songToUpdate.id) {
+          song['band'] = songToUpdate.band;
+          song['title'] = songToUpdate.title;
+          song['videoUrl'] = songToUpdate.videoUrl;
+        }
+      }
+
+      doc.reference.update({'songs': songs});
+    }
+  }
 }

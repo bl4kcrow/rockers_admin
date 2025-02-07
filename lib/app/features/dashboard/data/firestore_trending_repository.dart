@@ -74,4 +74,18 @@ class FirestoreTrendingRepository implements ITrendingRepository {
 
     return trendingSongsSaved;
   }
+  
+  @override
+  Future<void> updateSong(Song songToUpdate) async {
+    final QuerySnapshot<Map<String, dynamic>> query =
+        await _collection.where('songId', isEqualTo: songToUpdate.id).get();
+
+    if (query.docs.isNotEmpty) {
+      query.docs.first.reference.update({
+        'band': songToUpdate.band,
+        'title': songToUpdate.title,
+        'videoUrl': songToUpdate.videoUrl,
+      });
+    }
+  }
 }
