@@ -14,95 +14,121 @@ class SongsBoard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncSongs = ref.watch(songsProvider);
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const _SearchBar(),
-          asyncSongs.when(
-            data: (songs) => LayoutBuilder(
+    return Column(
+      children: [
+        const _SearchBar(),
+        asyncSongs.when(
+          data: (songs) => Expanded(
+            child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 return SizedBox(
                   width: constraints.maxWidth,
-                  child: PaginatedDataTable(
-                    actions: [
-                      TextButton.icon(
-                        icon: const Icon(Icons.add_circle_outline),
-                        label: const Text('Add'),
-                        onPressed: () => showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          barrierColor:
-                              AppColors.eerieBlack.withValues(alpha: 0.5),
-                          builder: (context) {
-                            return SongAlertDialog();
-                          },
+                  height: constraints.maxHeight,
+                  child: SingleChildScrollView(
+                    child: PaginatedDataTable(
+                      columnSpacing: 4.0,
+                      horizontalMargin: 24.0,
+                      actions: [
+                        TextButton.icon(
+                          icon: const Icon(Icons.add_circle_outline),
+                          label: const Text('Add'),
+                          onPressed: () => showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            barrierColor:
+                                AppColors.eerieBlack.withValues(alpha: 0.5),
+                            builder: (context) {
+                              return SongAlertDialog();
+                            },
+                          ),
                         ),
-                      ),
-                    ],
-                    columns: const [
-                      DataColumn(
-                        label: Text(
-                          'Band',
-                          style: heading3Style,
+                      ],
+                      columns: [
+                        DataColumn(
+                          label: SizedBox(
+                            width: constraints.maxWidth * 0.2,
+                            child: const Text(
+                              'Band',
+                              style: heading3Style,
+                            ),
+                          ),
                         ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Track',
-                          style: heading3Style,
+                        DataColumn(
+                          label: SizedBox(
+                            width: constraints.maxWidth * 0.2,
+                            child: const Text(
+                              'Track',
+                              style: heading3Style,
+                            ),
+                          ),
                         ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Video URL',
-                          style: heading3Style,
+                        DataColumn(
+                          label: SizedBox(
+                            width: constraints.maxWidth * 0.2,
+                            child: const Text(
+                              'Video URL',
+                              style: heading3Style,
+                              overflow: TextOverflow.ellipsis,
+                              softWrap: true,
+                            ),
+                          ),
                         ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Creation Date',
-                          style: heading3Style,
+                        DataColumn(
+                          label: SizedBox(
+                            width: constraints.maxWidth * 0.2,
+                            child: const Text(
+                              'Creation Date',
+                              style: heading3Style,
+                            ),
+                          ),
                         ),
-                      ),
-                      DataColumn(
-                        label: Text(
-                          'Actions',
-                          style: heading3Style,
+                        DataColumn(
+                          label: SizedBox(
+                            width: constraints.maxWidth * 0.14,
+                            child: const Text(
+                              'Actions',
+                              textAlign: TextAlign.center,
+                              style: heading3Style,
+                            ),
+                          ),
                         ),
+                      ],
+                      header: const Text(
+                        'Songs',
+                        style: heading2Style,
                       ),
-                    ],
-                    header: const Text(
-                      'Songs',
-                      style: heading2Style,
-                    ),
-                    headingRowHeight: 70.0,
-                    source: SongsDataTableSource(
-                      context: context,
-                      ref: ref,
-                      songsData: songs,
+                      headingRowHeight: 70.0,
+                      source: SongsDataTableSource(
+                        constraints: constraints,
+                        context: context,
+                        ref: ref,
+                        songsData: songs,
+                      ),
                     ),
                   ),
                 );
               },
             ),
-            error: (err, stack) => Text('Error: $err'),
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
           ),
-        ],
-      ),
+          error: (err, stack) => Text('Error: $err'),
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      ],
     );
   }
 }
 
 class SongsDataTableSource extends DataTableSource {
   SongsDataTableSource({
+    required this.constraints,
     required this.context,
     required this.ref,
     required this.songsData,
   });
 
+  final BoxConstraints constraints;
   final BuildContext context;
   final WidgetRef ref;
   final List<Song> songsData;
@@ -114,36 +140,74 @@ class SongsDataTableSource extends DataTableSource {
     return DataRow.byIndex(
       index: index,
       cells: [
-        DataCell(Text(song.band)),
-        DataCell(Text(song.title)),
-        DataCell(Text(song.videoUrl)),
         DataCell(
-          Text(DateFormat.yMMMMEEEEd().format(song.creationDate)),
+          SizedBox(
+            width: constraints.maxWidth * 0.2,
+            child: Text(
+              song.band,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            ),
+          ),
         ),
-        DataCell(Row(
-          children: [
-            IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                barrierDismissible: false,
-                barrierColor: AppColors.eerieBlack.withValues(alpha: 0.5),
-                builder: (context) {
-                  return SongAlertDialog(song: song);
+        DataCell(
+          SizedBox(
+            width: constraints.maxWidth * 0.2,
+            child: Text(
+              song.title,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            ),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: constraints.maxWidth * 0.2,
+            child: Text(
+              song.videoUrl,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            ),
+          ),
+        ),
+        DataCell(
+          SizedBox(
+            width: constraints.maxWidth * 0.2,
+            child: Text(
+              DateFormat.yMMMMEEEEd().format(song.creationDate),
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            ),
+          ),
+        ),
+        DataCell(SizedBox(
+          width: constraints.maxWidth * 0.14,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  barrierColor: AppColors.eerieBlack.withValues(alpha: 0.5),
+                  builder: (context) {
+                    return SongAlertDialog(song: song);
+                  },
+                ),
+                icon: const Icon(Icons.edit_outlined),
+              ),
+              IconButton(
+                onPressed: () {
+                  final songsNotifier = ref.read(songsProvider.notifier);
+                  songsNotifier.remove(song.id!);
                 },
+                icon: const Icon(
+                  Icons.delete_outlined,
+                  color: AppColors.frenchWine,
+                ),
               ),
-              icon: const Icon(Icons.edit_outlined),
-            ),
-            IconButton(
-              onPressed: () {
-                final songsNotifier = ref.read(songsProvider.notifier);
-                songsNotifier.remove(song.id!);
-              },
-              icon: const Icon(
-                Icons.delete_outlined,
-                color: AppColors.frenchWine,
-              ),
-            ),
-          ],
+            ],
+          ),
         )),
       ],
     );
