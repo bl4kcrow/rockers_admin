@@ -38,10 +38,13 @@ class TrendingNotifier extends AsyncNotifier<List<TrendingSong>> {
     });
   }
 
-  Future removeByIndex(int index) async {
+  Future removeByIndex(
+    int index, {
+    bool isReorder = false,
+  }) async {
     await update((currentList) {
       final songToDelete = currentList.removeAt(index);
-      if (songToDelete.id != null) {
+      if (isReorder == false && songToDelete.id != null) {
         idsToDelete.add(songToDelete.id!);
       }
       return currentList;

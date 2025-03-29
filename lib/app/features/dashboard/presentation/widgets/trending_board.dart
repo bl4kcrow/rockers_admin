@@ -111,6 +111,7 @@ class TrendingBoard extends ConsumerWidget {
                     final TrendingSong item = trendingSongs[oldIndex];
                     trendingSongNotifier.removeByIndex(
                       oldIndex,
+                      isReorder: true,
                     );
                     trendingSongNotifier.add(
                       newIndex,
