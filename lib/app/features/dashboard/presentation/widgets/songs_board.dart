@@ -165,6 +165,7 @@ class SongsDataTableSource extends DataTableSource {
             width: constraints.maxWidth * 0.2,
             child: Text(
               song.videoUrl,
+              style: bodyStyle.copyWith(color: AppColors.coolGrey),
               overflow: TextOverflow.ellipsis,
               softWrap: true,
             ),
@@ -175,6 +176,7 @@ class SongsDataTableSource extends DataTableSource {
             width: constraints.maxWidth * 0.2,
             child: Text(
               DateFormat.yMMMMEEEEd().format(song.creationDate),
+              style: bodyStyle.copyWith(color: AppColors.coolGrey),
               overflow: TextOverflow.ellipsis,
               softWrap: true,
             ),

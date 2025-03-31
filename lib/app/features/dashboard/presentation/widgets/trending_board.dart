@@ -59,7 +59,9 @@ class TrendingBoard extends ConsumerWidget {
                       title: Text(songData.title),
                       subtitle: Text(
                         songData.band,
-                        style: captionStyle,
+                        style: captionStyle.copyWith(
+                          color: AppColors.coolGrey,
+                        ),
                       ),
                       trailing: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -104,7 +106,6 @@ class TrendingBoard extends ConsumerWidget {
                   },
                   itemCount: trendingSongs.length,
                   onReorder: (oldIndex, newIndex) {
-                    // setState(() {
                     if (oldIndex < newIndex) {
                       newIndex -= 1;
                     }

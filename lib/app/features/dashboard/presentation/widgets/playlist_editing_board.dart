@@ -157,7 +157,9 @@ class _PlaylistEditingBoardState extends ConsumerState<PlaylistEditingBoard> {
                         title: Text(songData.title),
                         subtitle: Text(
                           songData.band,
-                          style: captionStyle,
+                          style: captionStyle.copyWith(
+                            color: AppColors.coolGrey,
+                          ),
                         ),
                         trailing: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),

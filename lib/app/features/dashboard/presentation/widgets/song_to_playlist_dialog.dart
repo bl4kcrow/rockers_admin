@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rockers_admin/app/core/theme/app_colors.dart';
+import 'package:rockers_admin/app/core/theme/app_text_style.dart';
 
 import 'package:rockers_admin/app/features/dashboard/dashboard.dart';
 
@@ -77,8 +79,14 @@ class _SongToPlaylistDialogState extends ConsumerState<SongToPlaylistDialog> {
                     itemCount: songs.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        title: Text(songs[index].title),
-                        subtitle: Text(songs[index].band),
+                        title: Text(
+                          songs[index].band,
+                          style: heading4Style,
+                        ),
+                        subtitle: Text(
+                          songs[index].title,
+                          style: bodyStyle.copyWith(color: AppColors.coolGrey),
+                        ),
                         trailing: IconButton(
                           onPressed: () async {
                             final playlistId = widget.playlist?.id;
